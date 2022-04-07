@@ -9,9 +9,9 @@ block content
 				i.bi.bi-person-square(style='font-size: 3rem; color: DodgerBlue;')
 				h1.h3.mb-3.fw-normal= t('views.users.new.signUp')
 				+formFor()(action=route('session') method='post')
-					+input(user, 'Имя', t('views.placeholders.firstName'), errors)(type='text')
-					+input(user, 'Фамилия', t('views.placeholders.lastName'), errors)(type='text')
 					+input(user, 'Email', t('views.placeholders.email'),  errors)(type='text')
 					+input(user, 'Пароль', t('views.placeholders.password'), errors)(type='password')
+					+input(user, 'Имя', t('views.placeholders.firstName'), errors)(type='text')
+					+input(user, 'Фамилия', t('views.placeholders.lastName'), errors)(type='text')
 					+submit(user)(value=t('views.users.new.submit'))
-					p.mt-3.mb-3.text-muted &copy; 2022 Hexlet Ltd.
+					p.my-3.text-muted &copy; 2022 Hexlet Ltd.

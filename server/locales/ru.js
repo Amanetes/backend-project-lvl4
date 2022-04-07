@@ -6,11 +6,11 @@ export default {
     flash: {
       session: {
         create: {
-          success: 'Вы залогинены',
-          error: 'Неправильный емейл или пароль',
+          success: 'Вы успешно вошли в систему',
+          error: 'Неправильно указаны почта или пароль',
         },
         delete: {
-          success: 'Вы разлогинены',
+          success: 'Вы вышли из системы',
         },
       },
       users: {
@@ -36,10 +36,18 @@ export default {
           submit: 'Войти',
         },
       },
+      placeholders: {
+        firstName: 'Имя',
+        lastName: 'Фамилия',
+        email: 'Email',
+        password: 'Пароль',
+      },
       users: {
         id: 'ID',
+        fullName: 'Полное имя',
         email: 'Email',
         createdAt: 'Дата создания',
+        options: 'Опции',
         new: {
           submit: 'Сохранить',
           signUp: 'Регистрация',
