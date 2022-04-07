@@ -2,7 +2,7 @@
 
 export default {
   translation: {
-    appName: 'Fastify Шаблон',
+    appName: 'Менеджер задач',
     flash: {
       session: {
         create: {
@@ -47,8 +47,8 @@ export default {
       },
       welcome: {
         index: {
-          hello: 'Привет от Хекслета!',
-          description: 'Практические курсы по программированию',
+          hello: 'Добро пожаловать!',
+          description: 'Учебный проект по профессии Node.js разработчик',
           more: 'Узнать Больше',
         },
       },
