@@ -55,7 +55,7 @@ export default {
       },
       welcome: {
         index: {
-          hello: 'Добро пожаловать!',
+          hello: 'Менеджер задач',
           description: 'Учебный проект по профессии Node.js разработчик',
           more: 'Узнать Больше',
         },
