@@ -6,6 +6,7 @@ import fastifyStatic from 'fastify-static';
 import fastifyErrorPage from 'fastify-error-page';
 
 import pointOfView from 'point-of-view';
+import Rollbar from 'rollbar';
 import fastifyFormbody from 'fastify-formbody';
 import fastifySecureSession from 'fastify-secure-session';
 import fastifyPassport from 'fastify-passport';
@@ -110,6 +111,13 @@ const registerPlugins = (app) => {
     models,
   });
 };
+
+// const setupRollbar = (app) => {
+//   const rollbar = new Rollbar({
+//     accessToken: process.env.ROLLBAR_TOKEN,
+//     captureUncaught: true,
+//     captureUnhandledRejections: true,
+//   });
 
 // eslint-disable-next-line no-unused-vars
 export default async (app, options) => {
