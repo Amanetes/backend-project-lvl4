@@ -21,5 +21,7 @@ block content
             td= user.email
             td= formatDate(user.createdAt)
             if isAuthenticated()
-            td
-              .d-flex.flex-wrap
+            if isAuthenticated()
+              td
+                a(href=route('users#edit', { id: user.id })).btn.btn-outline-primary.me-1= t('views.users.edit.submit')
+                +formFor()(action=route(`users#destroy`, { id: user.id }) method='post')
