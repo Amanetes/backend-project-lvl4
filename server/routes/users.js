@@ -28,5 +28,21 @@ export default (app) => {
       }
 
       return reply;
+    })
+    .get('/users/:id/edit', { name: 'users#edit', preValidation: app.authenticate }, async (req, reply) => {
+      if (Number(req.params.id) !== Number(req.user.id)) {
+        req.flash('error', i18next.t('flash.users.update.error'));
+        return reply.redirect(app.reverse('users'));
+      }
+      const user = await app.objection.models.user.query().findById(req.user.id);
+      reply.render('users/edit', { user });
+      return reply;
+    })
+    .patch('/users/:id', { name: 'users#update', preValidation: app.authenticate }, async (req, reply) => {
+      const { id } = req.user;
+      if (req.params.id !== Number(id)) {
+        req.flash('error', i18next.t('flash.users.edit.accessError'));
+        return reply.redirect(app.reverse('users#index'));
+      }
     });
 };
