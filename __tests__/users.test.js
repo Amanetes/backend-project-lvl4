@@ -19,10 +19,6 @@ describe('test users CRUD', () => {
     knex = app.objection.knex;
     models = app.objection.models;
 
-    // TODO: пока один раз перед тестами
-    // тесты не должны зависеть друг от друга
-    // перед каждым тестом выполняем миграции
-    // и заполняем БД тестовыми данными
     await knex.migrate.latest();
     await prepareData(app);
   });

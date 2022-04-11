@@ -22,5 +22,8 @@ block content
             td= formatDate(user.createdAt)
             if isAuthenticated()
               td
-                .d-flex
-                  a(href=route('users#edit', { id: user.id })).btn.btn-primary.me-1= t('views.users.new.submit')
+                .d-inline-flex
+                  a(href=route('users#edit', { id: user.id })).btn.btn-primary.me-1= t('views.users.update.submit')
+                  +formFor()(action=route(`users#destroy`, { id: user.id }) method='post')
+                    input(name='_method', type='hidden', value='delete')
+                    input.btn.btn-danger(type='submit', value= t('views.users.delete.submit'))
