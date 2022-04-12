@@ -5,7 +5,7 @@ import fastify from 'fastify';
 
 import init from '../server/plugin.js';
 import encrypt from '../server/lib/secure.cjs';
-import { getTestData, prepareData } from './helpers/index.js';
+import { getTestData, prepareData, signIn } from './helpers/index.js';
 
 describe('test users CRUD', () => {
   let app;
@@ -18,15 +18,10 @@ describe('test users CRUD', () => {
     await init(app);
     knex = app.objection.knex;
     models = app.objection.models;
-
-    // TODO: пока один раз перед тестами
-    // тесты не должны зависеть друг от друга
-    // перед каждым тестом выполняем миграции
-    // и заполняем БД тестовыми данными
+    await knex.migrate.latest();
   });
 
   beforeEach(async () => {
-    await knex.migrate.latest();
     await prepareData(app);
   });
 
@@ -67,8 +62,23 @@ describe('test users CRUD', () => {
     expect(user).toMatchObject(expected);
   });
 
+  it('edit', async () => {
+    const cookie = await signIn(app, testData.users.existing);
+    const user = await models
+      .user
+      .query()
+      .findOne({ email: testData.users.existing.email });
+    const response = await app.inject({
+      method: 'GET',
+      url: app.reverse('users#edit', { id: user.id }),
+      cookies: cookie,
+    });
+
+    expect(response.statusCode).toBe(200);
+  });
+
   afterEach(async () => {
-    await knex.migrate.rollback();
+    await knex('users').truncate();
   });
 
   afterAll(async () => {
