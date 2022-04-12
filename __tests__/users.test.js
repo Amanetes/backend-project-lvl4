@@ -19,6 +19,10 @@ describe('test users CRUD', () => {
     knex = app.objection.knex;
     models = app.objection.models;
 
+    // TODO: пока один раз перед тестами
+    // тесты не должны зависеть друг от друга
+    // перед каждым тестом выполняем миграции
+    // и заполняем БД тестовыми данными
     await knex.migrate.latest();
     await prepareData(app);
   });
@@ -29,7 +33,7 @@ describe('test users CRUD', () => {
   it('index', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: app.reverse('users'),
+      url: app.reverse('users#index'),
     });
 
     expect(response.statusCode).toBe(200);
@@ -38,7 +42,7 @@ describe('test users CRUD', () => {
   it('new', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: app.reverse('newUser'),
+      url: app.reverse('users#new'),
     });
 
     expect(response.statusCode).toBe(200);
@@ -48,7 +52,7 @@ describe('test users CRUD', () => {
     const params = testData.users.new;
     const response = await app.inject({
       method: 'POST',
-      url: app.reverse('users'),
+      url: app.reverse('users#create'),
       payload: {
         data: params,
       },
@@ -64,7 +68,9 @@ describe('test users CRUD', () => {
   });
 
   afterEach(async () => {
-    await knex.migrate.rollback();
+    // Пока Segmentation fault: 11
+    // после каждого теста откатываем миграции
+    // await knex.migrate.rollback();
   });
 
   afterAll(async () => {
