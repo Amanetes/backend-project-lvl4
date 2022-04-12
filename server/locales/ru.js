@@ -29,6 +29,20 @@ export default {
           failure: 'Не удалось удалить пользователя',
         },
       },
+      statuses: {
+        create: {
+          success: 'Статус успешно создан',
+          error: 'Не удалось создать статус',
+        },
+        update: {
+          success: 'Статус успешно изменен',
+          error: 'Не удалось изменить статус',
+        },
+        delete: {
+          success: 'Статус успешно удален',
+          error: 'Не удалось удалить статус',
+        },
+      },
       authError: 'Доступ запрещён! Пожалуйста, авторизируйтесь.',
     },
     layouts: {
@@ -54,6 +68,7 @@ export default {
         lastName: 'Фамилия',
         email: 'Email',
         password: 'Пароль',
+        name: 'Наименование',
       },
       users: {
         id: 'ID',
@@ -68,6 +83,24 @@ export default {
         update: {
           submit: 'Изменить',
           title: 'Изменение пользователя',
+        },
+        delete: {
+          submit: 'Удалить',
+        },
+      },
+      statuses: {
+        id: 'ID',
+        name: 'Наименование',
+        createdAt: 'Дата создания',
+        options: 'Действия',
+        new: {
+          create: 'Создать статус',
+          title: 'Создание статуса',
+          submit: 'Создать',
+        },
+        update: {
+          submit: 'Изменить',
+          title: 'Изменение статуса',
         },
         delete: {
           submit: 'Удалить',
