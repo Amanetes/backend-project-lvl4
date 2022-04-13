@@ -101,7 +101,23 @@ describe('test users CRUD', () => {
     const updatedUser = await models.user.query().findById(user.id);
     expect(updatedUser).toMatchObject(expected);
   });
+  it('delete', async () => {
+    const cookie = await signIn(app, testData.users.deleted);
 
+    const user = await models.user.query()
+      .findOne({ email: testData.users.deleted.email });
+
+    const response = await app.inject({
+      method: 'DELETE',
+      url: app.reverse('users#destroy', { id: user.id }),
+      cookies: cookie,
+    });
+
+    expect(response.statusCode).toBe(302);
+    const deletedUser = await models.user.query().findById(user.id);
+
+    expect(deletedUser).toBeUndefined();
+  });
   afterEach(async () => {
     await knex('users').truncate();
   });
