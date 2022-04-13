@@ -77,6 +77,31 @@ describe('test users CRUD', () => {
     expect(response.statusCode).toBe(200);
   });
 
+  it('update', async () => {
+    const cookie = await signIn(app, testData.users.existing);
+    const user = await models
+      .user
+      .query()
+      .findOne({ email: testData.users.existing.email });
+    const params = testData.users.new;
+    const response = await app.inject({
+      method: 'PATCH',
+      url: app.reverse('users#update', { id: user.id }),
+      cookies: cookie,
+      payload: {
+        data: params,
+      },
+    });
+
+    expect(response.statusCode).toBe(302);
+    const expected = {
+      ..._.omit(params, 'password'),
+      passwordDigest: encrypt(params.password),
+    };
+    const updatedUser = await models.user.query().findById(user.id);
+    expect(updatedUser).toMatchObject(expected);
+  });
+
   afterEach(async () => {
     await knex('users').truncate();
   });
