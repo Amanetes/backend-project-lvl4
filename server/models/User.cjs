@@ -29,7 +29,7 @@ module.exports = class User extends unique(BaseModel) {
     return {
       createdTasks: {
         relation: BaseModel.HasManyRelation,
-        modelClass: 'Task',
+        modelClass: 'Task.cjs',
         join: {
           from: 'users.id',
           to: 'tasks.creatorId',
@@ -37,7 +37,7 @@ module.exports = class User extends unique(BaseModel) {
       },
       assignedTasks: {
         relation: BaseModel.HasManyRelation,
-        modelClass: 'Task',
+        modelClass: 'Task.cjs',
         join: {
           from: 'users.id',
           to: 'tasks.executorId',

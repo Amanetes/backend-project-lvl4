@@ -24,7 +24,7 @@ module.exports = class Task extends BaseModel {
     return {
       status: {
         relation: BaseModel.BelongsToOneRelation,
-        modelClass: 'TaskStatus',
+        modelClass: 'TaskStatus.cjs',
         join: {
           from: 'tasks.statusId',
           to: 'statuses.id',
@@ -32,7 +32,7 @@ module.exports = class Task extends BaseModel {
       },
       creator: {
         relation: BaseModel.BelongsToOneRelation,
-        modelClass: 'User',
+        modelClass: 'User.cjs',
         join: {
           from: 'tasks.creatorId',
           to: 'users.id',
@@ -40,7 +40,7 @@ module.exports = class Task extends BaseModel {
       },
       executor: {
         relation: BaseModel.BelongsToOneRelation,
-        modelClass: 'User',
+        modelClass: 'User.cjs',
         join: {
           from: 'tasks.executorId',
           to: 'users.id',
@@ -48,7 +48,7 @@ module.exports = class Task extends BaseModel {
       },
       labels: {
         relation: BaseModel.ManyToManyRelation,
-        modelClass: 'Label',
+        modelClass: 'Label.cjs',
         join: {
           from: 'tasks.id',
           through: {
@@ -64,19 +64,19 @@ module.exports = class Task extends BaseModel {
   static get modifiers() {
     return {
       filterByStatus(query, statusId) {
-        query.where('statusId', statusId);
+        query.where({ statusId });
       },
 
       filterByExecutor(query, executorId) {
-        query.where('executorId', executorId);
+        query.where({ executorId });
       },
 
       filterByLabel(query, labelId) {
-        query.where('labelId', labelId);
+        query.where({ labelId });
       },
 
       filterByCreator(query, creatorId) {
-        query.where('creatorId', creatorId);
+        query.where({ creatorId });
       },
     };
   }

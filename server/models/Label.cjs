@@ -25,7 +25,7 @@ module.exports = class Label extends unique(BaseModel) {
     return {
       tasks: {
         relation: BaseModel.ManyToManyRelation,
-        modelClass: 'Task',
+        modelClass: 'Task.cjs',
         join: {
           from: 'labels.id',
           through: {

@@ -22,7 +22,7 @@ export const up = (knex) => (
         .integer('executor_id')
         .unsigned()
         .index()
-        .references('users.id')
+        .references('users.id');
 
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.timestamp('updated_at').defaultTo(knex.fn.now());

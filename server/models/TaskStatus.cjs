@@ -25,7 +25,7 @@ module.exports = class TaskStatus extends unique(BaseModel) {
     return {
       tasks: {
         relation: BaseModel.HasManyRelation,
-        modelClass: 'Task',
+        modelClass: 'Task.cjs',
         join: {
           from: 'statuses.id',
           to: 'tasks.statusId',

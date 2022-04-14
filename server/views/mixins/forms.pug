@@ -35,18 +35,37 @@ mixin buttonTo(action, method)
     input(type='submit')&attributes(attributes)
 
 mixin textarea(entity, propertyName, placeholder, errors = {})
-    - inputId = getInputId(propertyName)
-    - propertyErrors = _.get(errors, propertyName)
-    - classLine = 'form-control' + (_.isEmpty(propertyErrors) ? '' : ' is-invalid')
-    .my-3(class=(errors[propertyName] && 'has-danger'))
-      label(
-        for= inputId
-      )= placeholder
-      textarea(
-        id= inputId
-        name= getInputName(propertyName)
-        class= classLine
-        rows= "5"
+  - inputId= getInputId(propertyName)
+  - propertyErrors= _.get(errors, propertyName)
+  - classLine= 'form-control' + (_.isEmpty(propertyErrors) ? '' : ' is-invalid')
+  .my-3(class=(errors[propertyName] && 'has-danger'))
+    label(
+      for= inputId
+    )= placeholder
+    textarea(
+      id= inputId
+      name= getInputName(propertyName)
+      class= classLine
+      rows= "3"
     )&attributes(attributes)= _.get(entity, propertyName, '')
+    if !_.isEmpty(propertyErrors)
+      .invalid-feedback= propertyErrors.map(({ message }) => message).join('. ')
+
+mixin select(entity, propertyName, placeholder, errors = {}, options = {})
+  - inputId= getInputId(propertyName)
+  - propertyErrors= _.get(errors, propertyName)
+  - classLine= 'form-select' + (_.isEmpty(propertyErrors) ? '' : ' is-invalid')
+  .my-3(class=(errors[propertyName] && 'has-danger'))
+    label(
+      for= inputId
+    )= placeholder
+    select(
+      id= inputId
+      name= getInputName(propertyName)
+      class= classLine
+    )&attributes(attributes)
+        option
+    each option in options
+        option(value= option.name)= option.name
     if !_.isEmpty(propertyErrors)
       .invalid-feedback= propertyErrors.map(({ message }) => message).join('. ')

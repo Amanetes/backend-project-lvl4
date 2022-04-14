@@ -22,16 +22,19 @@ block content
           th= t('views.tasks.creator')
           th= t('views.tasks.executor')
           th= t('views.tasks.createdAt')
-          if isAuthenticated()
-            th= t('views.tasks.options')
+          th= t('views.tasks.options')
       tbody
         each task in tasks
           tr
             td= task.id
-            td= task.name
+            td
+              a(href=route('task#view', { id: task.id }))= task.name
+            td= task.status.name
             td= task.creator.name
             td= _.get(task.executor, 'name')
-            td= formatDate(task.createdAt)
-            if isAuthenticated()
-              td
-                .d-inline-flex
+            td= formatDate(task.createAt)
+              .d-inline-flex
+                a(href=route('tasks#edit', { id: task.id })).btn.btn-primary.me-1= t('views.tasks.update.submit')
+                +formFor()(action=route(`tasks#destroy`, { id: task.id }) method='post')
+                  input(name='_method', type='hidden', value='delete')
+                  input.btn.btn-danger(type='submit', value= t('views.tasks.delete.submit'))
