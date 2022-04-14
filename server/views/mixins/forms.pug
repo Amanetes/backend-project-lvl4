@@ -12,9 +12,9 @@ mixin input(entity, propertyName, placeholder, errors = {})
   .form-floating.my-3(class=(errors[propertyName] && 'has-danger'))
     input(
       id= inputId
-      name=getInputName(propertyName)
-      class=classLine
-      value=_.get(entity, propertyName, '')
+      name= getInputName(propertyName)
+      class= classLine
+      value= _.get(entity, propertyName, '')
       placeholder= placeholder
     )&attributes(attributes)
     label(
@@ -24,9 +24,29 @@ mixin input(entity, propertyName, placeholder, errors = {})
       .invalid-feedback= propertyErrors.map(({ message }) => message).join('. ')
 
 mixin submit(form = null)
-  input(class='w-100 btn btn-lg btn-primary' type='submit')&attributes(attributes)
+  input.btn.btn-lg.btn-primary.w-100(type='submit')&attributes(attributes)
+  
+mixin submitSm(form = null)
+  input.btn.btn-primary.mb-2(type='submit')&attributes(attributes)
 
 mixin buttonTo(action, method)
   form(action=action, method="post")
     input(name="_method" type="hidden" value=method)
     input(type='submit')&attributes(attributes)
+
+mixin textarea(entity, propertyName, placeholder, errors = {})
+    - inputId = getInputId(propertyName)
+    - propertyErrors = _.get(errors, propertyName)
+    - classLine = 'form-control' + (_.isEmpty(propertyErrors) ? '' : ' is-invalid')
+    .my-3(class=(errors[propertyName] && 'has-danger'))
+      label(
+        for= inputId
+      )= placeholder
+      textarea(
+        id= inputId
+        name= getInputName(propertyName)
+        class= classLine
+        rows= "5"
+    )&attributes(attributes)= _.get(entity, propertyName, '')
+    if !_.isEmpty(propertyErrors)
+      .invalid-feedback= propertyErrors.map(({ message }) => message).join('. ')

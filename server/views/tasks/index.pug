@@ -1,0 +1,35 @@
+extends ../layouts/application.pug
+
+block header
+  .fw-bold= t('layouts.application.tasks')
+    +formFor()(action=route('tasks#index') method='get')
+    a(href=route('tasks#new')).btn.btn-primary= t('views.tasks.new.create')
+block content
+  .card.shadow-sm.bg-light.bg-gradient.rounded-3
+    .card-body.p-4
+        .row
+          .col-12.col-md
+
+  table.table.caption-top.table-hover
+    caption
+      thead
+        tr
+          th= t('views.tasks.id')
+          th= t('views.tasks.name')
+          th= t('views.tasks.status')
+          th= t('views.tasks.creator')
+          th= t('views.tasks.executor')
+          th= t('views.tasks.createdAt')
+          if isAuthenticated()
+            th= t('views.tasks.options')
+      tbody
+        each task in tasks
+          tr
+            td= task.id
+            td= task.name
+            td= task.creator.name
+            td= _.get(task.executor, 'name')
+            td= formatDate(task.createdAt)
+            if isAuthenticated()
+              td
+                .d-inline-flex

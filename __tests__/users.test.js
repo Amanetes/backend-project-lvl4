@@ -106,7 +106,6 @@ describe('test users CRUD', () => {
 
     const user = await models.user.query()
       .findOne({ email: testData.users.deleted.email });
-
     const response = await app.inject({
       method: 'DELETE',
       url: app.reverse('users#destroy', { id: user.id }),

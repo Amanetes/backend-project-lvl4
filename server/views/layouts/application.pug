@@ -7,18 +7,16 @@ html(lang="en")
     script(src=assetPath('main.js'))
     link(href=assetPath('main.css') rel="stylesheet")
     meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
-  body.d-flex.flex-column.min-vh-100.bg-light
+  body.d-flex.flex-column.min-vh-100
     nav.navbar.navbar-expand-lg.navbar-light.bg-light.bg-gradient.mb-3
-      .justify-content-between.align-items-center
       .container
         a.navbar-brand(href=route('root#index'))= t('appName')
-        button.navbar-toggler(data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent")
+        button.navbar-toggler(data-bs-toggle='collapse' data-bs-target="#navbarToggleExternalContent")
           span.navbar-toggler-icon
         .collapse.navbar-collapse(id="navbarToggleExternalContent")
-          .container-fluid
-            ul.navbar-nav.me-auto
-              li.nav-item
-                a.nav-link(href=route('users#index'))= t('layouts.application.users')
+          ul.navbar-nav.justify-content-end.w-100
+            li.nav-item.me-auto
+              a.nav-link(href=route('users#index'))= t('layouts.application.users')
           ul.navbar-nav
             if isAuthenticated()
               li.nav-item

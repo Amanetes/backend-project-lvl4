@@ -51,7 +51,6 @@ export default {
         update: {
           success: 'Задача успешно изменена',
           error: 'Не удалось изменить задачу',
-
         },
         delete: {
           success: 'Задача успешно удалена',
@@ -99,6 +98,7 @@ export default {
         email: 'Email',
         password: 'Пароль',
         name: 'Наименование',
+        description: 'Описание',
       },
       users: {
         id: 'ID',
@@ -139,6 +139,7 @@ export default {
       tasks: {
         id: 'ID',
         name: 'Наименование',
+        labels: 'Метки',
         status: 'Статус',
         creator: 'Автор',
         executor: 'Исполнитель',
