@@ -23,7 +23,7 @@ block content
             if isAuthenticated()
               td
                 .d-inline-flex
-                  a(href=route('users#edit', { id: user.id })).btn.btn-primary.me-1= t('views.users.update.submit')
+                  a(href=route('users#edit', { id: user.id })).btn.btn-primary.bg-gradient.me-1= t('views.users.update.submit')
                   +formFor()(action=route(`users#destroy`, { id: user.id }) method='post')
                     input(name='_method', type='hidden', value='delete')
-                    input.btn.btn-danger(type='submit', value= t('views.users.delete.submit'))
+                    input.btn.btn-danger.bg-gradient(type='submit', value= t('views.users.delete.submit'))

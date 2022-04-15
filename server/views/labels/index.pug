@@ -5,7 +5,7 @@ block content
   table.table.caption-top.table-hover
     caption
     .text-dark.fs-4.fw-bold= t('layouts.application.labels')
-      a(href=route('labels#new')).btn.btn-primary.mx-2= t('views.labels.new.create')
+      a(href=route('labels#new')).btn.btn-primary.bg-gradient.mx-2= t('views.labels.new.create')
       thead
         tr
           th= t('views.labels.id')
@@ -22,7 +22,7 @@ block content
             if isAuthenticated()
               td
                 .d-inline-flex
-                  a(href=route('labels#edit', { id: label.id })).btn.btn-primary.me-1= t('views.labels.update.submit')
+                  a(href=route('labels#edit', { id: label.id })).btn.btn-primary.bg-gradient.me-1= t('views.labels.update.submit')
                   +formFor()(action=route(`labels#destroy`, { id: label.id }) method='post')
                     input(name='_method', type='hidden', value='delete')
-                    input.btn.btn-danger(type='submit', value= t('views.labels.delete.submit'))
+                    input.btn.btn-danger.bg-gradient(type='submit', value= t('views.labels.delete.submit'))

@@ -97,14 +97,24 @@ export default (app) => {
     .delete('/users/:id', { name: 'users#destroy', preValidation: app.authenticate }, async (req, reply) => {
       if (Number(req.params.id) !== Number(req.user.id)) {
         req.flash('error', i18next.t('flash.users.delete.failure'));
+        reply.redirect(app.reverse('users#index'));
+        return reply;
+      }
+      const user = await app.objection.models.user.query().findById(req.params.id);
+      const createdTasks = user.$relatedQuery('createdTasks');
+      const assignedTasks = await user.$relatedQuery('assignedTasks');
+
+      if (!_.isEmpty(createdTasks) && !_.isEmpty(assignedTasks)) {
+        req.flash('error', i18next.t('flash.users.delete.error'));
         return reply.redirect(app.reverse('users#index'));
       }
+
       try {
         await app.objection.models.user.query().deleteById(req.params.id);
         await req.logOut();
         req.flash('info', i18next.t('flash.users.delete.success'));
         return reply.redirect(app.reverse('users#index'));
-      } catch ({ data }) {
+      } catch (err) {
         req.flash('error', i18next.t('flash.users.delete.error'));
         return reply.redirect(app.reverse('users#index'));
       }

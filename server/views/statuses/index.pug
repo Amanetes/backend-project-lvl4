@@ -5,7 +5,7 @@ block content
   table.table.caption-top.table-hover
     caption
     .text-dark.fs-4.fw-bold= t('layouts.application.statuses')
-      a(href=route('statuses#new')).btn.btn-primary.mx-2= t('views.statuses.new.create')
+      a(href=route('statuses#new')).btn.btn-primary.bg-gradient.mx-2= t('views.statuses.new.create')
       thead
         tr
           th= t('views.statuses.id')
@@ -21,7 +21,7 @@ block content
             if isAuthenticated()
               td
                 .d-inline-flex
-                  a(href=route('statuses#edit', { id: taskStatus.id })).btn.btn-primary.me-1= t('views.statuses.update.submit')
+                  a(href=route('statuses#edit', { id: taskStatus.id })).btn.btn-primary.bg-gradient.me-1= t('views.statuses.update.submit')
                   +formFor()(action=route(`statuses#destroy`, { id: taskStatus.id }) method='post')
                     input(name='_method', type='hidden', value='delete')
-                    input.btn.btn-danger(type='submit', value= t('views.statuses.delete.submit'))
+                    input.btn.btn-danger.bg-gradient(type='submit', value= t('views.statuses.delete.submit'))

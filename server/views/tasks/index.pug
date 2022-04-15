@@ -2,7 +2,7 @@ extends ../layouts/application.pug
 
 block header
   .fw-bold= t('layouts.application.tasks')
-    a(href=route('tasks#new')).mx-2.btn.btn-primary= t('views.tasks.new.create')
+    a(href=route('tasks#new')).btn.btn-primary.bg-gradient.mx-2= t('views.tasks.new.create')
 block content
   .card.shadow-sm.bg-light.bg-gradient.rounded-3
     .card-body.p-4
@@ -39,7 +39,7 @@ block content
             td= formatDate(task.createdAt)
             td
               .d-inline-flex
-                a(href=route('tasks#edit', { id: task.id })).btn.btn-primary.me-1= t('views.tasks.update.submit')
+                a(href=route('tasks#edit', { id: task.id })).btn.btn-primary.bg-gradient.me-1= t('views.tasks.update.submit')
                 +formFor()(action=route(`tasks#destroy`, { id: task.id }) method='post')
                   input(name='_method', type='hidden', value='delete')
-                  input.btn.btn-danger(type='submit', value= t('views.tasks.delete.submit'))
+                  input.btn.btn-danger.bg-gradient(type='submit', value= t('views.tasks.delete.submit'))
