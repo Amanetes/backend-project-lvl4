@@ -50,7 +50,7 @@ module.exports = class User extends unique(BaseModel) {
     this.passwordDigest = encrypt(value);
   }
 
-  get fullName() {
+  get name() {
     return `${this.firstName} ${this.lastName}`;
   }
 

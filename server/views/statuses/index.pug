@@ -11,8 +11,7 @@ block content
           th= t('views.statuses.id')
           th= t('views.statuses.name')
           th= t('views.statuses.createdAt')
-          if isAuthenticated()
-            th= t('views.statuses.options')
+          th= t('views.statuses.options')
       tbody
         each taskStatus in taskStatuses
           tr

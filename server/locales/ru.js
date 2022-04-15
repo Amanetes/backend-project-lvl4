@@ -157,6 +157,10 @@ export default {
         delete: {
           submit: 'Удалить',
         },
+        filter: {
+          submit: 'Показать',
+          isCreatorUser: 'Только мои задачи',
+        },
       },
       labels: {
         id: 'ID',

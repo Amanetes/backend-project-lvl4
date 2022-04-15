@@ -2,16 +2,20 @@ extends ../layouts/application.pug
 
 block header
   .fw-bold= t('layouts.application.tasks')
-    +formFor()(action=route('tasks#index') method='get')
-    a(href=route('tasks#new')).btn.btn-primary= t('views.tasks.new.create')
+    a(href=route('tasks#new')).mx-2.btn.btn-primary= t('views.tasks.new.create')
 block content
   .card.shadow-sm.bg-light.bg-gradient.rounded-3
     .card-body.p-4
+      +formFor()(action=route('tasks#index') method='get')
         .row
-          .col-12.col-md-6
-          .col-12.col-md-6
-          .col-12.col-md-6
-
+          .col-12.col-md-4
+            +filter(task, 'status', t('views.tasks.status'), taskStatuses, filterOpts)
+          .col-12.col-md-4
+            +filter(task, 'executor', t('views.tasks.executor'), users, filterOpts)
+          .col-12.col-md-4
+            +filter(task, 'label', t('views.tasks.labels'), labels, filterOpts)
+        +checkbox(task, 'isCreatorUser', t('views.tasks.filter.isCreatorUser'), filterOpts)
+        +submitSm(task)(value=t('views.tasks.filter.submit'))
   table.table.caption-top.table-hover
     caption
       thead
@@ -32,7 +36,8 @@ block content
             td= task.status.name
             td= task.creator.name
             td= _.get(task.executor, 'name')
-            td= formatDate(task.createAt)
+            td= formatDate(task.createdAt)
+            td
               .d-inline-flex
                 a(href=route('tasks#edit', { id: task.id })).btn.btn-primary.me-1= t('views.tasks.update.submit')
                 +formFor()(action=route(`tasks#destroy`, { id: task.id }) method='post')

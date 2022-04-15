@@ -27,7 +27,7 @@ export default (app) => {
         tasksQuery.modify('filterByCreator', req.user.id);
       }
 
-      const [statuses, users, labels, tasks] = await Promise.all([
+      const [taskStatuses, users, labels, tasks] = await Promise.all([
         app.objection.models.taskStatus.query(),
         app.objection.models.user.query(),
         app.objection.models.label.query(),
@@ -35,7 +35,7 @@ export default (app) => {
       ]);
 
       reply.render('tasks/index', {
-        statuses, users, labels, tasks, filter: req.query,
+        taskStatuses, users, labels, tasks, filterOpts: req.query,
       });
       return reply;
     })
@@ -55,20 +55,70 @@ export default (app) => {
       return reply;
     })
     .get('/tasks/:id', { name: 'task#view', preValidation: app.authenticate }, async (req, reply) => {
-      const task = await app.objection.models.task.query()
-        .findById(req.params.id).withGraphJoined('[status, creator, executor, labels]');
+      const task = await app.objection.models.task
+        .query()
+        .findById(req.params.id)
+        .withGraphJoined('[status, creator, executor, labels]');
 
       reply.render('tasks/view', { task });
       return reply;
     })
     .get('/tasks/:id/edit', { name: 'tasks#edit', preValidation: app.authenticate }, async (req, reply) => {
-      const task = await app
-        .objection
-        .models
-        .task
+      const task = await app.objection.models.task
         .query()
-        .findById(req.params.id);
-      reply.render('tasks/edit', { task });
+        .findById(req.params.id)
+        .withGraphJoined('[status, creator, executor, labels]');
+
+      const [taskStatuses, users, labels] = await Promise.all([
+        app.objection.models.taskStatus.query(),
+        app.objection.models.user.query(),
+        app.objection.models.label.query(),
+      ]);
+
+      reply.render('tasks/edit', {
+        task, taskStatuses, labels, users,
+      });
+    })
+    .post('/tasks', { name: 'tasks#create', preValidation: app.authenticate }, async (req, reply) => {
+      const labelIds = [_.get(req.body.data, 'labels', [])].flat();
+      const currentLabels = await app.objection.models.label.query().findByIds(labelIds);
+      const task = new app.objection.models.task();
+
+      const taskData = {
+        name: req.body.data.name,
+        description: req.body.data.description,
+        creatorId: req.user.id,
+        statusId: Number(req.body.data.statusId),
+        executorId: !req.body.data.executorId ? null : Number(req.body.data.executorId),
+        labels: currentLabels,
+      };
+
+      try {
+        await app.objection.models.task.transaction(async (trx) => {
+          const inputTask = await app.objection.models.task.query(trx)
+            .insertGraph(taskData, { relate: true });
+          return inputTask;
+        });
+
+        req.flash('info', i18next.t('flash.tasks.create.success'));
+        reply.redirect(app.reverse('tasks#index'));
+      } catch ({ data }) {
+        const [taskStatuses, users, labels] = await Promise.all([
+          app.objection.models.taskStatus.query(),
+          app.objection.models.user.query(),
+          app.objection.models.label.query(),
+        ]);
+
+        req.flash('error', i18next.t('flash.tasks.create.error'));
+        task.$set(req.body.data);
+        reply.render('tasks/new', {
+          task, errors: data, taskStatuses, users, labels,
+        });
+      }
+      return reply;
+    })
+    .patch('/tasks/:id', { name: 'tasks#update', preValidation: app.authenticate }, async (req, reply) => {
+
       return reply;
     })
     .delete('/tasks/:id', { name: 'tasks#destroy', preValidation: app.authenticate }, async (req, reply) => {
@@ -76,15 +126,22 @@ export default (app) => {
         .query()
         .findById(req.params.id);
 
-      return reply;
-    })
-    .post(
-      '/tasks',
-      { name: 'tasks#create', preValidation: app.authenticate },
-      async (req, reply) => {
-        const { data } = req.body;
+      if (task.creatorId !== req.user.id) {
+        req.flash('error', i18next.t('flash.tasks.delete.failure'));
+        return reply.redirect(app.reverse('tasks#index'));
+      }
 
-        return reply;
-      },
-    );
+      try {
+        await app.objection.models.task.transaction(async (trx) => {
+          await task.$relatedQuery('labels', trx).unrelate();
+          await task.$query(trx).delete();
+        });
+
+        req.flash('info', i18next.t('flash.tasks.delete.success'));
+        return reply.redirect(app.reverse('tasks#index'));
+      } catch ({ data }) {
+        req.flash('error', i18next.t('flash.tasks.delete.error'));
+        return reply.redirect(app.reverse('tasks#index'));
+      }
+    });
 };
