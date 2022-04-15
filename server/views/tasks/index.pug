@@ -9,11 +9,11 @@ block content
       +formFor()(action=route('tasks#index') method='get')
         .row
           .col-12.col-md-4
-            +filter(task, 'status', t('views.tasks.status'), taskStatuses, filterOpts)
+            +filter('status', t('views.tasks.status'), taskStatuses, filterOpts)
           .col-12.col-md-4
-            +filter(task, 'executor', t('views.tasks.executor'), users, filterOpts)
+            +filter('executor', t('views.tasks.executor'), users, filterOpts)
           .col-12.col-md-4
-            +filter(task, 'label', t('views.tasks.labels'), labels, filterOpts)
+            +filter('label', t('views.tasks.labels'), labels, filterOpts)
         +checkbox(task, 'isCreatorUser', t('views.tasks.filter.isCreatorUser'), filterOpts)
         +submitSm(task)(value=t('views.tasks.filter.submit'))
   table.table.caption-top.table-hover

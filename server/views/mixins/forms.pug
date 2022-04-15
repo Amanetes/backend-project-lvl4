@@ -78,25 +78,26 @@ mixin checkbox(entity, propertyName, label, filterOpts)
   .my-3.form-check
     input.form-check-input(
       id= inputId
-      type='checkbox'
-      name= getInputName(propertyName)
+      name= propertyName
+      class= classLine
+      type= 'checkbox'
       checked= filterOpts[propertyName]
     )
     label.form-check-label(
       for= inputId
     )= label
 
-mixin filter(entity, propertyName, label, options = {}, filterOpts)
-  - inputId = getInputId(propertyName)
+mixin filter(propertyName, label, options = {}, filterOpts)
+  -inputId= getInputId(propertyName)
   .input-group.my-3
     label(
       for= inputId
     ).input-group-text= label
-    select.form-select(
+    select(
       id= inputId
-      name= getInputName(propertyName)
-    )&attributes(attributes)
+      name= propertyName
+    )&attributes(attributes).form-select
       option
-      each option in options
-        - isSelected = option.id === Number(filterOpts[propertyName]);
+      for option in options
+        - isSelected = option.id===Number(filterOpts[propertyName])
         option(value= option.id selected= isSelected)= option.name

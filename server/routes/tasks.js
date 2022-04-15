@@ -21,7 +21,7 @@ export default (app) => {
         tasksQuery.modify('filterByExecutor', executor);
       }
       if (label) {
-        tasksQuery.modify('fileteByLabel', label);
+        tasksQuery.modify('filterByLabel', label);
       }
       if (isCreatorUser) {
         tasksQuery.modify('filterByCreator', req.user.id);
