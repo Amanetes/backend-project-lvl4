@@ -115,16 +115,13 @@ const registerPlugins = (app) => {
 
 const setupErrorHandler = (app) => {
   app.setErrorHandler(async (err, req, reply) => {
-    if (isProduction) {
-      const rollbar = new Rollbar({
-        accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
-        captureUncaught: true,
-        captureUnhandledRejections: true,
-      });
+    const rollbar = new Rollbar({
+      accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+      captureUncaught: true,
+      captureUnhandledRejections: true,
+    });
 
-      rollbar.error(err, req);
-    }
-
+    rollbar.error(err, req);
     reply.send(err);
   });
 };
