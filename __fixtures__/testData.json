@@ -25,9 +25,14 @@
     },
     "existing": {
       "name": "In Testing"
+    }
+  },
+  "labels": {
+    "new": {
+      "name": "Question"
     },
-    "updated": {
-      "name": "Changed"
+    "existing": {
+      "name": "Enhancement"
     }
   }
 }

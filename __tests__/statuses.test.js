@@ -81,7 +81,7 @@ describe('test statuses CRUD', () => {
       .query()
       .findOne({ name: testData.statuses.existing.name });
 
-    const params = testData.statuses.updated;
+    const params = testData.statuses.new;
 
     const response = await app.inject({
       method: 'PATCH',
@@ -118,7 +118,7 @@ describe('test statuses CRUD', () => {
   });
 
   afterEach(async () => {
-    await knex('users').truncate();
+    await knex('statuses').truncate();
   });
 
   afterAll(async () => {
