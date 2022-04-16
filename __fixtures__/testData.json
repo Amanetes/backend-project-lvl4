@@ -13,10 +13,10 @@
       "lastName": "Kulas"
     },
     "deleted": {
-      "email": "elbert_abshire52@gmail.com",
-      "password": "5f9b60f2fdee",
-      "firstName": "Elbert",
-      "lastName": "Abshire"
+      "email": "dylan.brekke@hotmail.com",
+      "password": "EkJvALgPOXn5e03",
+      "firstName": "Dylan",
+      "lastName": "Brekke"
     }
   },
   "statuses": {
@@ -24,10 +24,7 @@
       "name": "Assigned"
     },
     "existing": {
-      "name": "In Testing"
-    },
-    "removed": {
-      "name": "Done"
+      "name": "Watched"
     }
   },
   "tasks": {

@@ -113,25 +113,28 @@ const registerPlugins = (app) => {
   });
 };
 
-const setupRollbar = (app) => {
+const setupErrorHandler = (app) => {
   app.setErrorHandler(async (err, req, reply) => {
-    const rollbar = new Rollbar({
-      accessToken: process.env.ROLLBAR_TOKEN,
-      captureUncaught: true,
-      captureUnhandledRejections: true,
-    });
-    rollbar.log('Hello world!');
-    rollbar.error(err, req);
+    if (isProduction) {
+      const rollbar = new Rollbar({
+        accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+        captureUncaught: true,
+        captureUnhandledRejections: true,
+      });
+
+      rollbar.error(err, req);
+    }
+
     reply.send(err);
   });
 };
 
 // eslint-disable-next-line no-unused-vars
 export default async (app, options) => {
+  setupErrorHandler(app);
   registerPlugins(app);
 
   await setupLocalization();
-  setupRollbar(app);
   setUpViews(app);
   setUpStaticAssets(app);
   addRoutes(app);

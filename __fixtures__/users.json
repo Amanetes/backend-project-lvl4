@@ -16,5 +16,11 @@
     "passwordDigest": "a4fb05ab46ae7a62017dd31411c880095c0ecefc6ecc1f7354641003043011b0",
     "firstName": "Nona",
     "lastName": "Murray"
+  },
+  {
+  "email": "dylan.brekke@hotmail.com",
+  "passwordDigest": "ac38fe4328016533cde6ddf6ffda05039e308db77239fa89bfce172992ed2cd7",
+  "firstName": "Dylan",
+  "lastName": "Brekke"
   }
 ]
