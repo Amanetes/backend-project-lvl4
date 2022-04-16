@@ -12,17 +12,19 @@
       "firstName": "Lawrence",
       "lastName": "Kulas"
     },
-    "updated": {
-      "email": "nona_murray@yahoo.com",
-      "password": "760391e7dceb",
-      "firstName": "Nona",
-      "lastName": "Murray"
-    },
     "deleted": {
       "email": "elbert_abshire52@gmail.com",
       "password": "5f9b60f2fdee",
       "firstName": "Elbert",
       "lastName": "Abshire"
+    }
+  },
+  "statuses": {
+    "new": {
+      "name": "Assigned"
+    },
+    "existing": {
+      "name": "In Testing"
     }
   }
 }

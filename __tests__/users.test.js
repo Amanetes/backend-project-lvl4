@@ -58,14 +58,15 @@ describe('test users CRUD', () => {
       ..._.omit(params, 'password'),
       passwordDigest: encrypt(params.password),
     };
-    const user = await models.user.query().findOne({ email: params.email });
+    const user = await models.user
+      .query()
+      .findOne({ email: params.email });
     expect(user).toMatchObject(expected);
   });
 
   it('edit', async () => {
     const cookie = await signIn(app, testData.users.existing);
-    const user = await models
-      .user
+    const user = await models.user
       .query()
       .findOne({ email: testData.users.existing.email });
     const response = await app.inject({
@@ -79,8 +80,7 @@ describe('test users CRUD', () => {
 
   it('update', async () => {
     const cookie = await signIn(app, testData.users.existing);
-    const user = await models
-      .user
+    const user = await models.user
       .query()
       .findOne({ email: testData.users.existing.email });
     const params = testData.users.new;
@@ -98,13 +98,16 @@ describe('test users CRUD', () => {
       ..._.omit(params, 'password'),
       passwordDigest: encrypt(params.password),
     };
-    const updatedUser = await models.user.query().findById(user.id);
+    const updatedUser = await models.user
+      .query()
+      .findById(user.id);
     expect(updatedUser).toMatchObject(expected);
   });
   it('delete', async () => {
     const cookie = await signIn(app, testData.users.deleted);
 
-    const user = await models.user.query()
+    const user = await models.user
+      .query()
       .findOne({ email: testData.users.deleted.email });
     const response = await app.inject({
       method: 'DELETE',
