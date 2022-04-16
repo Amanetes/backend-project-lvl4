@@ -29,7 +29,7 @@ import FormStrategy from './lib/passportStrategies/FormStrategy.js';
 const __dirname = fileURLToPath(path.dirname(import.meta.url));
 
 const mode = process.env.NODE_ENV || 'development';
-// const isDevelopment = mode === 'development';
+const isProduction = mode === 'production';
 
 const setUpViews = (app) => {
   const helpers = getHelpers(app);
@@ -113,18 +113,27 @@ const registerPlugins = (app) => {
   });
 };
 
-// const setupRollbar = (app) => {
-//   const rollbar = new Rollbar({
-//     accessToken: process.env.ROLLBAR_TOKEN,
-//     captureUncaught: true,
-//     captureUnhandledRejections: true,
-//   });
+const setupRollbar = (app) => {
+  app.setErrorHandler(async (err, req, reply) => {
+    if (isProduction) {
+      const rollbar = new Rollbar({
+        accessToken: process.env.ROLLBAR_TOKEN,
+        captureUncaught: true,
+        captureUnhandledRejections: true,
+      });
+
+      rollbar.error(err, req);
+    }
+    reply.send(err);
+  });
+};
 
 // eslint-disable-next-line no-unused-vars
 export default async (app, options) => {
   registerPlugins(app);
 
   await setupLocalization();
+  setupRollbar(app);
   setUpViews(app);
   setUpStaticAssets(app);
   addRoutes(app);
