@@ -81,13 +81,15 @@ export default (app) => {
     })
     .post('/tasks', { name: 'tasks#create', preValidation: app.authenticate }, async (req, reply) => {
       const labelIds = [_.get(req.body.data, 'labels', [])].flat();
-      const currentLabels = await app.objection.models.label.query().findByIds(labelIds);
+      const currentLabels = await app.objection.models.label
+        .query()
+        .findByIds(labelIds);
       const task = new app.objection.models.task();
 
       const taskData = {
         name: req.body.data.name,
         description: req.body.data.description,
-        creatorId: req.user.id,
+        creatorId: Number(req.user.id),
         statusId: Number(req.body.data.statusId),
         executorId: !req.body.data.executorId ? null : Number(req.body.data.executorId),
         labels: currentLabels,
@@ -118,7 +120,45 @@ export default (app) => {
       return reply;
     })
     .patch('/tasks/:id', { name: 'tasks#update', preValidation: app.authenticate }, async (req, reply) => {
+      const labelIds = [_.get(req.body.data, 'labels', [])].flat();
+      const task = await app.objection.models.task
+        .query()
+        .findById(req.params.id);
 
+      const taskData = {
+        id: Number(req.params.id),
+        name: req.body.data.name,
+        description: req.body.data.description,
+        creatorId: Number(req.user.id),
+        statusId: Number(req.body.data.statusId),
+        executorId: !req.body.data.executorId ? null : Number(req.body.data.executorId),
+        labels: labelIds.map((labelId) => ({ id: labelId })),
+      };
+
+      try {
+        await app.objection.models.task.transaction(async (trx) => {
+          const updatedTask = await app.objection.models.task.query(trx)
+            .upsertGraph(taskData, {
+              relate: true, unrelate: true, noDelete: true,
+            });
+          return updatedTask;
+        });
+        req.flash('info', i18next.t('flash.tasks.update.success'));
+        reply.redirect(app.reverse('tasks#index'));
+      } catch ({ data }) {
+        const [taskStatuses, users, labels] = await Promise.all([
+          app.objection.models.taskStatus.query(),
+          app.objection.models.user.query(),
+          app.objection.models.label.query(),
+        ]);
+
+        task.$set(taskData);
+
+        req.flash('error', i18next.t('flash.tasks.update.error'));
+        reply.render('tasks/edit', {
+          task, errors: data, taskStatuses, users, labels,
+        });
+      }
       return reply;
     })
     .delete('/tasks/:id', { name: 'tasks#destroy', preValidation: app.authenticate }, async (req, reply) => {
