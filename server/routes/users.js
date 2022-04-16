@@ -51,6 +51,7 @@ export default (app) => {
         req.flash('info', i18next.t('flash.users.update.success'));
         return reply.redirect(app.reverse('users#index'));
       } catch ({ data }) {
+        user.$set(req.body.data);
         req.flash('error', i18next.t('flash.users.update.error'));
         reply.render('users/edit', { user, errors: data });
       }

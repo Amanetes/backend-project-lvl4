@@ -25,6 +25,9 @@
     },
     "existing": {
       "name": "In Testing"
+    },
+    "updated": {
+      "name": "Changed"
     }
   }
 }

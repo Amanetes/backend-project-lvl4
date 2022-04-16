@@ -1,14 +1,11 @@
 [
-    {
-      "name": "New"
-    },
-    {
-      "name": "In Progress"
-    },
-    {
-      "name": "In Testing"
-    },
-    {
-      "name": "Completed"
-    }
-  ]
+  {
+    "name": "In Progress"
+  },
+  {
+    "name": "In Testing"
+  },
+  {
+    "name": "Completed"
+  }
+]

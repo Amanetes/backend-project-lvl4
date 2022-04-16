@@ -64,13 +64,9 @@ export default (app) => {
       return reply;
     })
     .patch('/statuses/:id', { name: 'statuses#update', preValidation: app.authenticate }, async (req, reply) => {
-      const taskStatus = await app
-        .objection
-        .models
-        .taskStatus
+      const taskStatus = await app.objection.models.taskStatus
         .query()
         .findById(req.params.id);
-
       try {
         await taskStatus.$query().patch(req.body.data);
         req.flash('info', i18next.t('flash.statuses.update.success'));
@@ -78,8 +74,8 @@ export default (app) => {
       } catch ({ data }) {
         req.flash('error', i18next.t('flash.statuses.update.error'));
         reply.render('statuses/edit', { taskStatus, errors: data });
-        return reply;
       }
+      return reply;
     })
     .delete('/statuses/:id', { name: 'statuses#destroy', preValidation: app.authenticate }, async (req, reply) => {
       try {

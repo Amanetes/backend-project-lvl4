@@ -5,7 +5,7 @@ import fastify from 'fastify';
 import init from '../server/plugin.js';
 import { getTestData, prepareData, signIn } from './helpers/index.js';
 
-describe('test users CRUD', () => {
+describe('test statuses CRUD', () => {
   let app;
   let knex;
   let models;
@@ -76,11 +76,13 @@ describe('test users CRUD', () => {
     expect(taskStatus).toMatchObject(params);
   });
 
-  it('update', async () => {
+  it('patch', async () => {
     const taskStatus = await models.taskStatus
       .query()
       .findOne({ name: testData.statuses.existing.name });
-    const params = testData.statuses.new;
+
+    const params = testData.statuses.updated;
+
     const response = await app.inject({
       method: 'PATCH',
       url: app.reverse('statuses#update', { id: taskStatus.id }),
