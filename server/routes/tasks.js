@@ -54,7 +54,7 @@ export default (app) => {
 
       return reply;
     })
-    .get('/tasks/:id', { name: 'task#view', preValidation: app.authenticate }, async (req, reply) => {
+    .get('/tasks/:id', { name: 'tasks#view', preValidation: app.authenticate }, async (req, reply) => {
       const task = await app.objection.models.task
         .query()
         .findById(req.params.id)
@@ -80,11 +80,10 @@ export default (app) => {
       });
     })
     .post('/tasks', { name: 'tasks#create', preValidation: app.authenticate }, async (req, reply) => {
-      const labelIds = [_.get(req.body.data, 'labels', [])].flat();
+      const labelsIds = _.toArray(_.get(req.body.data, 'labels', []));
       const currentLabels = await app.objection.models.label
         .query()
-        .findByIds(labelIds);
-      const task = new app.objection.models.task();
+        .findByIds(labelsIds);
 
       const taskData = {
         name: req.body.data.name,
@@ -97,9 +96,9 @@ export default (app) => {
 
       try {
         await app.objection.models.task.transaction(async (trx) => {
-          const inputTask = await app.objection.models.task.query(trx)
+          await app.objection.models.task
+            .query(trx)
             .insertGraph(taskData, { relate: true });
-          return inputTask;
         });
 
         req.flash('info', i18next.t('flash.tasks.create.success'));
@@ -112,15 +111,15 @@ export default (app) => {
         ]);
 
         req.flash('error', i18next.t('flash.tasks.create.error'));
-        task.$set(req.body.data);
         reply.render('tasks/new', {
-          task, errors: data, taskStatuses, users, labels,
+          task: req.body.data, errors: data, taskStatuses, users, labels,
         });
       }
+
       return reply;
     })
     .patch('/tasks/:id', { name: 'tasks#update', preValidation: app.authenticate }, async (req, reply) => {
-      const labelIds = [_.get(req.body.data, 'labels', [])].flat();
+      const labelIds = _.toArray(_.get(req.body.data, 'labels', []));
       const task = await app.objection.models.task
         .query()
         .findById(req.params.id);
@@ -137,7 +136,8 @@ export default (app) => {
 
       try {
         await app.objection.models.task.transaction(async (trx) => {
-          const updatedTask = await app.objection.models.task.query(trx)
+          const updatedTask = await app.objection.models.task
+            .query(trx)
             .upsertGraph(taskData, {
               relate: true, unrelate: true, noDelete: true,
             });

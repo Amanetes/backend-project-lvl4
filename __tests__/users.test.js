@@ -120,6 +120,7 @@ describe('test users CRUD', () => {
 
     expect(deletedUser).toBeUndefined();
   });
+
   afterEach(async () => {
     await knex('users').truncate();
   });
