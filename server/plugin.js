@@ -121,12 +121,13 @@ const setupRollbar = (app) => {
         captureUncaught: true,
         captureUnhandledRejections: true,
       });
-
+      rollbar.log('Hello world!');
       rollbar.error(err, req);
     }
     reply.send(err);
   });
 };
+
 
 // eslint-disable-next-line no-unused-vars
 export default async (app, options) => {
