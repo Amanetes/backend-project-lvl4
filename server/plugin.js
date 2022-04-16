@@ -115,19 +115,16 @@ const registerPlugins = (app) => {
 
 const setupRollbar = (app) => {
   app.setErrorHandler(async (err, req, reply) => {
-    if (isProduction) {
-      const rollbar = new Rollbar({
-        accessToken: process.env.ROLLBAR_TOKEN,
-        captureUncaught: true,
-        captureUnhandledRejections: true,
-      });
-      rollbar.log('Hello world!');
-      rollbar.error(err, req);
-    }
+    const rollbar = new Rollbar({
+      accessToken: process.env.ROLLBAR_TOKEN,
+      captureUncaught: true,
+      captureUnhandledRejections: true,
+    });
+    rollbar.log('Hello world!');
+    rollbar.error(err, req);
     reply.send(err);
   });
 };
-
 
 // eslint-disable-next-line no-unused-vars
 export default async (app, options) => {
