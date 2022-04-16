@@ -6,8 +6,6 @@ on:
   - push
   - pull_request
   
-env:
-  SESSION_KEY: ${{ secrets.SESSION_KEY }}
     
 jobs:
   build:
