@@ -7,10 +7,10 @@ export const up = (knex) => (
     table.string('description');
 
     table
-        .integer('status_id')
-        .unsigned()
-        .index()
-        .references('statuses.id');
+      .integer('status_id')
+      .unsigned()
+      .index()
+      .references('statuses.id');
 
     table
         .integer('creator_id')
@@ -19,14 +19,14 @@ export const up = (knex) => (
         .references('users.id');
 
     table
-        .integer('executor_id')
-        .unsigned()
-        .index()
-        .references('users.id');
+      .integer('executor_id')
+      .unsigned()
+      .index()
+      .references('users.id');
 
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.timestamp('updated_at').defaultTo(knex.fn.now());
-    })
-  );
-  
+  })
+);
+
 export const down = (knex) => knex.schema.dropTable('tasks');

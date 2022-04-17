@@ -8,5 +8,5 @@ export const up = (knex) => (
     table.timestamp('updated_at').defaultTo(knex.fn.now());
   })
 );
-  
+
 export const down = (knex) => knex.schema.dropTable('labels');
