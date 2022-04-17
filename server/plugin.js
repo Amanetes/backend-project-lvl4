@@ -112,14 +112,14 @@ const registerPlugins = (app) => {
   });
 };
 
+const rollbar = new Rollbar({
+  accessToken: process.env.ROLLBAR_KEY,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+});
+
 const setupErrorHandler = (app) => {
   app.setErrorHandler(async (err, req, reply) => {
-    const rollbar = new Rollbar({
-      accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
-      captureUncaught: true,
-      captureUnhandledRejections: true,
-    });
-
     rollbar.error(err, req);
     reply.send(err);
   });
@@ -127,8 +127,8 @@ const setupErrorHandler = (app) => {
 
 // eslint-disable-next-line no-unused-vars
 export default async (app, options) => {
-  setupErrorHandler(app);
   registerPlugins(app);
+  setupErrorHandler(app);
 
   await setupLocalization();
   setUpViews(app);
