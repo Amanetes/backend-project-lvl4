@@ -13,10 +13,10 @@ export const up = (knex) => (
       .references('statuses.id');
 
     table
-        .integer('creator_id')
-        .unsigned()
-        .index()
-        .references('users.id');
+      .integer('creator_id')
+      .unsigned()
+      .index()
+      .references('users.id');
 
     table
       .integer('executor_id')
