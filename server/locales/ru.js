@@ -6,11 +6,11 @@ export default {
     flash: {
       session: {
         create: {
-          success: 'Вы успешно вошли в систему',
-          error: 'Неправильно указаны почта или пароль',
+          success: 'Вы залогинены',
+          error: 'Неправильный емейл или пароль',
         },
         delete: {
-          success: 'Вы вышли из системы',
+          success: 'Вы разлогинены',
         },
       },
       users: {
