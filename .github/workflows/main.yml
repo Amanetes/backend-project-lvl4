@@ -37,6 +37,7 @@ jobs:
           make setup
         # Add environment variables
         env:
+          CI: true
           SESSION_KEY: ${{ secrets.SESSION_KEY }}
       - name: Run linter
         # Run Linter
