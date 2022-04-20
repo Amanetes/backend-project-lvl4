@@ -3,7 +3,7 @@ Task Manager is a task management system. It allows you to set tasks, assign use
 
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/Amanetes/backend-project-lvl4/workflows/hexlet-check/badge.svg)](https://github.com/Amanetes/backend-project-lvl4/actions)
-[![CI](https://github.com/Amanetes/backend-project-lvl4/actions/workflows/CI/badge.svg)](https://github.com/Amanetes/backend-project-lvl4/actions/workflows/main.yml)
+[![CI](https://github.com/Amanetes/backend-project-lvl4/actions/workflows/main.yml/badge.svg)](https://github.com/Amanetes/backend-project-lvl4/actions/workflows/main.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/503a1731ed926629c56b/maintainability)](https://codeclimate.com/github/Amanetes/backend-project-lvl4/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/503a1731ed926629c56b/test_coverage)](https://codeclimate.com/github/Amanetes/backend-project-lvl4/test_coverage)
 
